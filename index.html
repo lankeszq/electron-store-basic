@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Electron Store Example</title>
+</head>
+<body>
+  <h1>Electron Store Example</h1>
+  
+  <div>
+    <label for="inputValue">Enter Value:</label>
+    <input type="text" id="inputValue" />
+    <button id="saveButton">Save to Store</button>
+  </div>
+
+  <div>
+    <button id="loadButton">Load from Store</button>
+    <p id="storedValue">Stored Value: </p>
+  </div>
+
+  <script>
+    const saveButton = document.getElementById('saveButton');
+    const loadButton = document.getElementById('loadButton');
+    const inputValue = document.getElementById('inputValue');
+    const storedValue = document.getElementById('storedValue');
+
+    // Save the input value to electron-store
+    saveButton.addEventListener('click', async () => {
+      const value = inputValue.value;
+      if (value) {
+        await window.api.setStoreValue('exampleKey', value);
+        alert('Value saved successfully!');
+      }
+    });
+
+    // Load the stored value from electron-store and display it
+    loadButton.addEventListener('click', async () => {
+      const value = await window.api.getStoreValue('exampleKey');
+      storedValue.textContent = `Stored Value: ${value || 'No value found'}`;
+    });
+  </script>
+</body>
+</html>
